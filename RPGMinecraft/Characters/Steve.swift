@@ -35,7 +35,7 @@ protocol Character {
 class Steve: Character {
     var health: Int = 10
     var name: String = "Steve"
-    var spriteName = "player"
+    var spriteName = "steve"
     
     var atacks: [Atack] = [
         Atack(name: "Ataque rapido", amount: 2, quantity: 10),
@@ -47,17 +47,16 @@ class Steve: Character {
     // TODO: Adicionar logica para quantidade de ataques
     func atackPlayer(player: Player, enemy: Player, with atack: Atack) {
         switch atack.name {
-        case "Ataque rapido":
-            let damage = atack.damage + atack.critical
-            print("damage: \(damage) base: \(atack.damage) critico: \(atack.critical)")
-            enemy.decreaseHealth(amount: damage)
-        case "Critico":
+        case atacks[0].name:
             let damage = atack.damage + atack.critical
             enemy.decreaseHealth(amount: damage)
-        case "Encantar Espada":
+        case atacks[1].name:
+            let damage = atack.damage + atack.critical
+            enemy.decreaseHealth(amount: damage)
+        case atacks[2].name:
             atacks[0].increaseCritical(buffer: 1)
             atacks[1].increaseCritical(buffer: 2)
-        case "Pocao de cura":
+        case atacks[3].name:
             player.increaseHealth(amount: atack.damage)
         default: break
         }

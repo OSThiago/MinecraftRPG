@@ -98,6 +98,7 @@ extension GameScene {
         let playerNode = SKSpriteNode(texture: texture)
         playerNode.position = CGPoint(x: size.width * 0.3, y: size.height * 0.5)
         playerNode.name = "player"
+        playerNode.size = CGSize(width: 64, height: 64)
         return playerNode
     }
     
@@ -107,6 +108,7 @@ extension GameScene {
         let enemyNode = SKSpriteNode(texture: texture)
         enemyNode.position = CGPoint(x: size.width * 0.8, y: size.height * 0.75)
         enemyNode.name = "enemy"
+        enemyNode.size = CGSize(width: 64, height: 64)
         return enemyNode
     }
     
