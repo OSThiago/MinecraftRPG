@@ -11,7 +11,7 @@ import GameplayKit
 class GameScene: SKScene {
     
     let player = Player(character: Steve())
-    let enemy = Player(character: Steve())
+    let enemy = Player(character: Zombie())
     
     lazy var dialogLabel = TypewriterLabel(fontNamed: "Futura")
     
@@ -38,8 +38,15 @@ class GameScene: SKScene {
     lazy var playerNode = addPlayerNode()
     lazy var enemyNode = addEnemyNode()
     
-    lazy var playerInfo = QuadroPersonagem(nome: "Player")
-    lazy var enemyInfo = QuadroPersonagem(nome: "Enemy")
+    lazy var playerInfo = CharacterStatusPanel(characterName: player.character.name,
+                                               maxHealth: player.character.health,
+                                               initialHealth: player.character.health,
+                                               width: 160)
+    
+    lazy var enemyInfo = CharacterStatusPanel(characterName: enemy.character.name,
+                                              maxHealth: enemy.character.health,
+                                              initialHealth: enemy.character.health,
+                                              width: 160)
     
     override func didMove(to view: SKView) {
         
@@ -47,8 +54,8 @@ class GameScene: SKScene {
         addChild(playerNode)
         addChild(enemyNode)
         // Infos
-        playerInfo.position = CGPoint(x: size.width * 0.7, y: size.height * 0.5)
-        enemyInfo.position = CGPoint(x: size.width * 0.3, y: size.height * 0.75)
+        playerInfo.position = CGPoint(x: size.width * 0.5, y: size.height * 0.52)
+        enemyInfo.position = CGPoint(x: size.width * 0.15, y: size.height * 0.77)
         addChild(playerInfo)
         addChild(enemyInfo)
         
@@ -74,7 +81,7 @@ class GameScene: SKScene {
         guard let touche = touches.first else { return }
         let location = touche.location(in: self)
         
-        let touchedNode = self.atPoint(location)
+//        let touchedNode = self.atPoint(location)
 //        print(touchedNode.name)
     }
 }
@@ -91,7 +98,7 @@ extension GameScene {
     }
     
     func addEnemyNode() -> SKSpriteNode{
-        let textureName = player.spriteName
+        let textureName = enemy.spriteName
         let texture = SKTexture(imageNamed: textureName)
         let enemyNode = SKSpriteNode(texture: texture)
         enemyNode.position = CGPoint(x: size.width * 0.8, y: size.height * 0.75)
@@ -115,8 +122,9 @@ extension GameScene {
             self.player.character.attackPlayer(player: self.player,
                                               enemy: self.enemy,
                                               with: self.player.character.attacks[0])
-            self.enemyInfo.atualizarVida(quantidade: self.enemy.health)
-            self.playerInfo.atualizarVida(quantidade: self.player.health)
+
+            self.enemyInfo.setHealth(self.enemy.health, animated: true)
+            self.playerInfo.setHealth(self.player.health, animated: true)
             
             self.dialogLabel.startTyping(text: "Player: \(self.player.character.attacks[0].name)",
                                     speed: 0.03)
@@ -127,8 +135,9 @@ extension GameScene {
             self.player.character.attackPlayer(player: self.player,
                                               enemy: self.enemy,
                                               with: self.player.character.attacks[1])
-            self.enemyInfo.atualizarVida(quantidade: self.enemy.health)
-            self.playerInfo.atualizarVida(quantidade: self.player.health)
+            
+            self.enemyInfo.setHealth(self.enemy.health, animated: true)
+            self.playerInfo.setHealth(self.player.health, animated: true)
             
             self.dialogLabel.startTyping(text: "Player: \(self.player.character.attacks[1].name)",
                                     speed: 0.03)
@@ -139,8 +148,9 @@ extension GameScene {
             self.player.character.attackPlayer(player: self.player,
                                               enemy: self.enemy,
                                               with: self.player.character.attacks[2])
-            self.enemyInfo.atualizarVida(quantidade: self.enemy.health)
-            self.playerInfo.atualizarVida(quantidade: self.player.health)
+            
+            self.enemyInfo.setHealth(self.enemy.health, animated: true)
+            self.playerInfo.setHealth(self.player.health, animated: true)
             
             self.dialogLabel.startTyping(text: "Player: \(self.player.character.attacks[2].name)",
                                     speed: 0.03)
@@ -151,8 +161,9 @@ extension GameScene {
             self.player.character.attackPlayer(player: self.player,
                                               enemy: self.enemy,
                                               with: self.player.character.attacks[3])
-            self.enemyInfo.atualizarVida(quantidade: self.enemy.health)
-            self.playerInfo.atualizarVida(quantidade: self.player.health)
+            
+            self.enemyInfo.setHealth(self.enemy.health, animated: true)
+            self.playerInfo.setHealth(self.player.health, animated: true)
             
             self.dialogLabel.startTyping(text: "Player: \(self.player.character.attacks[3].name)",
                                     speed: 0.03)
@@ -173,8 +184,8 @@ extension GameScene {
                                              enemy: self.player,
                                              with: atack)
 
-            self.enemyInfo.atualizarVida(quantidade: self.enemy.health)
-            self.playerInfo.atualizarVida(quantidade: self.player.health)
+            self.enemyInfo.setHealth(self.enemy.health, animated: true)
+            self.playerInfo.setHealth(self.player.health, animated: true)
         }
     }
 }

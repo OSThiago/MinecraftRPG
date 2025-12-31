@@ -11,8 +11,7 @@ class Player {
     
     var character: Character
     var spriteName: String
-    
-    var health: Int = 10
+    var health: Int
     
     init(character: Character) {
         self.character = character
