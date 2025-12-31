@@ -28,7 +28,7 @@ class QuadroPersonagem: SKNode {
         addChild(fundo)
         
         let labelNome = SKLabelNode(text: nome.uppercased())
-        labelNome.fontName = "AvenirNext-Bold"
+        labelNome.fontName = "Futura"
         labelNome.fontSize = 16 // Fonte reduzida
         labelNome.position = CGPoint(x: 0, y: 12)
         labelNome.fontColor = .white

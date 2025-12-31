@@ -13,24 +13,26 @@ class GameScene: SKScene {
     let player = Player(character: Steve())
     let enemy = Player(character: Steve())
     
-    lazy var button1 = attackButton(atackName: player.character.atacks[0].name,
-                                    width: 0.2,
-                                    height: 0.25,
+    lazy var dialogLabel = TypewriterLabel(fontNamed: "Futura")
+    
+    lazy var button1 = attackButton(atackName: player.character.attacks[0].name,
+                                    xPosition: 0.25,
+                                    yPosition: 0.25,
                                     nodeName: "button1")
     
-    lazy var button2 = attackButton(atackName: player.character.atacks[1].name,
-                                    width: 0.8,
-                                    height: 0.25,
+    lazy var button2 = attackButton(atackName: player.character.attacks[1].name,
+                                    xPosition: 0.7,
+                                    yPosition: 0.25,
                                     nodeName: "button2")
     
-    lazy var button3 = attackButton(atackName: player.character.atacks[2].name,
-                                    width: 0.2,
-                                    height: 0.15,
+    lazy var button3 = attackButton(atackName: player.character.attacks[2].name,
+                                    xPosition: 0.25,
+                                    yPosition: 0.15,
                                     nodeName: "button3")
     
-    lazy var button4 = attackButton(atackName: player.character.atacks[3].name,
-                                    width: 0.8,
-                                    height: 0.15,
+    lazy var button4 = attackButton(atackName: player.character.attacks[3].name,
+                                    xPosition: 0.7,
+                                    yPosition: 0.15,
                                     nodeName: "button4")
     
     lazy var playerNode = addPlayerNode()
@@ -55,6 +57,17 @@ class GameScene: SKScene {
         addChild(button2)
         addChild(button3)
         addChild(button4)
+        
+        setButtonsActions()
+        
+        // Dialogo
+        dialogLabel.fontSize = 16
+        dialogLabel.fontColor = .white
+        dialogLabel.position = CGPoint(x: size.width * 0.5, y: size.height * 0.3)
+        dialogLabel.numberOfLines = 1
+        addChild(dialogLabel)
+        
+        dialogLabel.startTyping(text: "O que Steve vai fazer?", speed: 0.03)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -62,32 +75,7 @@ class GameScene: SKScene {
         let location = touche.location(in: self)
         
         let touchedNode = self.atPoint(location)
-        
-        switch touchedNode.name {
-        case "button1":
-            self.player.character.atackPlayer(player: self.player,
-                                              enemy: self.enemy,
-                                              with: self.player.character.atacks[0])
-            enemyAtack()
-        case "button2":
-            self.player.character.atackPlayer(player: self.player,
-                                              enemy: self.enemy,
-                                              with: self.player.character.atacks[1])
-            enemyAtack()
-        case "button3":
-            self.player.character.atackPlayer(player: self.player,
-                                              enemy: self.enemy,
-                                              with: self.player.character.atacks[2])
-            enemyAtack()
-        case "button4":
-            self.player.character.atackPlayer(player: self.player,
-                                              enemy: self.enemy,
-                                              with: self.player.character.atacks[3])
-            enemyAtack()
-        default: return
-        }
-        enemyInfo.atualizarVida(quantidade: enemy.health)
-        playerInfo.atualizarVida(quantidade: player.health)
+//        print(touchedNode.name)
     }
 }
 
@@ -111,13 +99,65 @@ extension GameScene {
         enemyNode.size = CGSize(width: 64, height: 64)
         return enemyNode
     }
+}
+
+// Botoes de atack
+extension GameScene {
+    func attackButton(atackName: String, xPosition: CGFloat, yPosition: CGFloat, nodeName: String) -> AttackButton {
+        let button = AttackButton(title: atackName)
+        button.name = nodeName
+        button.position = CGPoint(x: size.width * xPosition, y: size.height * yPosition)
+        return button
+    }
     
-    func attackButton(atackName: String, width: CGFloat, height: CGFloat, nodeName: String) -> SKLabelNode {
-        let label = SKLabelNode(text: atackName)
-        label.fontSize = 24
-        label.position = CGPoint(x: size.width * width, y: size.height * height)
-        label.name = nodeName
-        return label
+    func setButtonsActions() {
+        button1.onTap = {
+            self.player.character.attackPlayer(player: self.player,
+                                              enemy: self.enemy,
+                                              with: self.player.character.attacks[0])
+            self.enemyInfo.atualizarVida(quantidade: self.enemy.health)
+            self.playerInfo.atualizarVida(quantidade: self.player.health)
+            
+            self.dialogLabel.startTyping(text: "Player: \(self.player.character.attacks[0].name)",
+                                    speed: 0.03)
+            self.enemyAtack()
+        }
+        
+        button2.onTap = {
+            self.player.character.attackPlayer(player: self.player,
+                                              enemy: self.enemy,
+                                              with: self.player.character.attacks[1])
+            self.enemyInfo.atualizarVida(quantidade: self.enemy.health)
+            self.playerInfo.atualizarVida(quantidade: self.player.health)
+            
+            self.dialogLabel.startTyping(text: "Player: \(self.player.character.attacks[1].name)",
+                                    speed: 0.03)
+            self.enemyAtack()
+        }
+        
+        button3.onTap = {
+            self.player.character.attackPlayer(player: self.player,
+                                              enemy: self.enemy,
+                                              with: self.player.character.attacks[2])
+            self.enemyInfo.atualizarVida(quantidade: self.enemy.health)
+            self.playerInfo.atualizarVida(quantidade: self.player.health)
+            
+            self.dialogLabel.startTyping(text: "Player: \(self.player.character.attacks[2].name)",
+                                    speed: 0.03)
+            self.enemyAtack()
+        }
+        
+        button4.onTap = {
+            self.player.character.attackPlayer(player: self.player,
+                                              enemy: self.enemy,
+                                              with: self.player.character.attacks[3])
+            self.enemyInfo.atualizarVida(quantidade: self.enemy.health)
+            self.playerInfo.atualizarVida(quantidade: self.player.health)
+            
+            self.dialogLabel.startTyping(text: "Player: \(self.player.character.attacks[3].name)",
+                                    speed: 0.03)
+            self.enemyAtack()
+        }
     }
 }
 
@@ -125,11 +165,11 @@ extension GameScene {
 extension GameScene {
     func enemyAtack() {
         let random = Int.random(in: 0...3)
-        let atack = enemy.character.atacks[random]
-        
-        print("Inimigo vai atacar!!")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            self.enemy.character.atackPlayer(player: self.enemy,
+        let atack = enemy.character.attacks[random]
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.dialogLabel.startTyping(text: "Inimigo: \(atack.name)", speed: 0.03)
+            self.enemy.character.attackPlayer(player: self.enemy,
                                              enemy: self.player,
                                              with: atack)
 
