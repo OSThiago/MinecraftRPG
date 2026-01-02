@@ -44,6 +44,7 @@ class GameScene: SKScene {
         battleManager.turnEndAction = { playerHeart, enemyHeart in
             self.battleHud.updatePlayerHeart(value: playerHeart)
             self.battleHud.updateEnemyHeart(value: enemyHeart)
+            self.battleHud.enableAttacks(isAnabled: self.battleManager.isPlayerTurn)
         }
         
         battleManager.dialogAction = { dialog in

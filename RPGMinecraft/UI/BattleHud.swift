@@ -76,7 +76,6 @@ class BattleHud: SKNode {
             )
             
             button.onTap = {
-                print("atacar aqui")
                 self.onAttackSelected?(index)
             }
             
@@ -95,5 +94,12 @@ class BattleHud: SKNode {
     
     func updateDialog(text: String) {
         dialogLabel.startTyping(text: text, speed: 0.03)
+    }
+    
+    func enableAttacks(isAnabled: Bool) {
+        for attack in attacks {
+            attack.isUserInteractionEnabled = isAnabled
+            attack.isHidden = !isAnabled
+        }
     }
 }
