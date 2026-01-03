@@ -10,53 +10,47 @@ import SpriteKit
 final class TypewriterLabel: SKLabelNode {
 
     private var fullText: String = ""
-    private var currentIndex: String.Index?
     private var typingSpeed: TimeInterval = 0.02
-    private var typingActionKey = "typing"
+    private var typingTask: Task<Void, Never>?
 
-    // MARK: - Iniciar animação
+    // MARK: - Iniciar animação (async)
     func startTyping(
         text: String,
         speed: TimeInterval = 0.02
-    ) {
-        removeAction(forKey: typingActionKey)
+    ) async {
+
+        // Cancela qualquer digitação em andamento
+        typingTask?.cancel()
 
         fullText = text
         typingSpeed = speed
         self.text = ""
-        currentIndex = fullText.startIndex
 
-        let action = SKAction.repeatForever(
-            SKAction.sequence([
-                SKAction.run { [weak self] in
-                    self?.appendNextCharacter()
-                },
-                SKAction.wait(forDuration: typingSpeed)
-            ])
-        )
+        typingTask = Task { @MainActor in
+            for char in fullText {
+                if Task.isCancelled { return }
 
-        run(action, withKey: typingActionKey)
-    }
+                self.text?.append(char)
 
-    // MARK: - Próximo caractere
-    private func appendNextCharacter() {
-        guard let index = currentIndex else { return }
-
-        if index < fullText.endIndex {
-            text?.append(fullText[index])
-            currentIndex = fullText.index(after: index)
-        } else {
-            removeAction(forKey: typingActionKey)
+                try? await Task.sleep(
+                    nanoseconds: UInt64(typingSpeed * 1_000_000_000)
+                )
+            }
         }
+
+        // Aguarda a task terminar
+        await typingTask?.value
+        typingTask = nil
     }
 
     // MARK: - Pular animação
     func skip() {
-        removeAction(forKey: typingActionKey)
+        typingTask?.cancel()
+        typingTask = nil
         text = fullText
     }
 
     var isTyping: Bool {
-        action(forKey: typingActionKey) != nil
+        typingTask != nil
     }
 }

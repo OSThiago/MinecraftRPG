@@ -11,7 +11,7 @@ import GameplayKit
 class GameScene: SKScene {
     
     let player = Player(character: Witch())
-    let enemy = Player(character: Zombie())
+    let enemy = Player(character: Witch())
     
     lazy var battleManager = BattleManager(player: player, enemy: enemy)
     lazy var battleHud = BattleHud(player: player, enemy: enemy, sceneSize: size)
@@ -22,6 +22,10 @@ class GameScene: SKScene {
         
         let playerNode = addPlayerNode()
         let enemyNode = addEnemyNode()
+        
+        player.battleHud = self.battleHud
+        enemy.battleHud = self.battleHud
+        battleManager.BattleHud = self.battleHud
         
         addChild(playerNode)
         addChild(enemyNode)
@@ -48,7 +52,9 @@ class GameScene: SKScene {
         }
         
         battleManager.dialogAction = { dialog in
-            self.battleHud.updateDialog(text: dialog)
+            Task {
+                await self.battleHud.updateDialog(text: dialog)
+            }
         }
     }
 }

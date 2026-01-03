@@ -25,13 +25,23 @@ class Witch: Character {
         case 1:
             let damage = attacks[1].damage
             enemy.decreaseHealth(amount: damage)
+            posionAttack(enemy: enemy)
         case 2:
-            let invisibility = attacks[2].damage
+//            let invisibility = attacks[2].damage
             // TODO: - Implementar forma do inimigo errar os ataques com uma porcentagem
+            break
         case 3:
             let health = attacks[3].damage
             player.increaseHealth(amount: health)
         default: break
+        }
+    }
+    
+    private func posionAttack(enemy: Player) {
+        let poisonChance = 0.8
+        
+        if Double.random(in: 0...1) <= poisonChance {
+            enemy.addStatusEffects(effect: PoisonStatus(turns: 3, damage: 2))
         }
     }
 }

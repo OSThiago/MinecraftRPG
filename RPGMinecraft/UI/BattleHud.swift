@@ -92,8 +92,8 @@ class BattleHud: SKNode {
         enemyStatus.setHealth(value)
     }
     
-    func updateDialog(text: String) {
-        dialogLabel.startTyping(text: text, speed: 0.03)
+    func updateDialog(text: String) async {
+        await dialogLabel.startTyping(text: text, speed: 0.03)
     }
     
     func enableAttacks(isAnabled: Bool) {
