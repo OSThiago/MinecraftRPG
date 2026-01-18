@@ -44,15 +44,26 @@ class BattleManager {
             await dialogAction?("\(player.character.name) usou \(attack.name)")
             
             await sleep(seconds: 2)
-            enemyTurn()
+            
+            if checkIsEnd() {
+                await endGame()
+                return
+            }
+            
+            startEnemyTurn()
         }
     }
 
-    func enemyTurn() {
+    func startEnemyTurn() {
         Task {
             // 1. Processa o status assim que começa o turno
             await self.enemy.processStatusEffects()
             BattleHud?.updateEnemyHeart(value: enemy.health)
+            
+            if checkIsEnd() {
+                await endGame()
+                return
+            }
             
             // tempo antes de começar o ataque
             await sleep(seconds: 2)
@@ -70,6 +81,11 @@ class BattleManager {
             BattleHud?.updateEnemyHeart(value: enemy.health)
             BattleHud?.updatePlayerHeart(value: player.health)
             
+            if checkIsEnd() {
+                await endGame()
+                return
+            }
+            
             // 3. Começa o ataque do Player
             await sleep(seconds: 2)
             startPlayerTurn()
@@ -82,6 +98,11 @@ class BattleManager {
             await self.player.processStatusEffects()
             BattleHud?.updatePlayerHeart(value: player.health)
 
+            if checkIsEnd() {
+                await endGame()
+                return
+            }
+            
             self.isPlayerTurn = true
 
             BattleHud?.enableAttacks(isAnabled: true)
@@ -94,5 +115,35 @@ class BattleManager {
         try? await Task.sleep(
             nanoseconds: UInt64(seconds * 1_000_000_000)
         )
+    }
+}
+
+// Resetar o game
+extension BattleManager {
+    func checkIsEnd() -> Bool {
+        return player.health <= 0 || enemy.health <= 0
+    }
+
+    func endGame() async {
+        await sleep(seconds: 3)
+        
+        BattleHud?.enableAttacks(isAnabled: false)
+        if player.health <= 0 {
+            print("Inimigo ganhou")
+            await BattleHud?.updateDialog(text: "\(enemy.character.name) ganhou!!")
+        }
+
+        if enemy.health <= 0 {
+            print("Player ganhou")
+            await BattleHud?.updateDialog(text: "\(player.character.name) ganhou!!")
+        }
+        
+        await sleep(seconds: 3)
+        player.reset()
+        enemy.reset()
+        BattleHud?.updateEnemyHeart(value: enemy.health)
+        BattleHud?.updatePlayerHeart(value: player.health)
+
+        startPlayerTurn()
     }
 }

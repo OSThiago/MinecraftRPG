@@ -8,11 +8,10 @@
 import SpriteKit
 
 class Player {
-    
     var character: Character
     var spriteName: String
-    var health: Int
     
+    var health: Int
     var statusEffects: [StatusEffect] = []
     
     weak var battleHud: BattleHud?
@@ -73,5 +72,13 @@ class Player {
         try? await Task.sleep(
             nanoseconds: UInt64(seconds * 1_000_000_000)
         )
+    }
+}
+
+// Logica para resetar todo os status do Player
+extension Player {
+    func reset() {
+        statusEffects.removeAll()
+        self.health = character.health
     }
 }

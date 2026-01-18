@@ -11,7 +11,7 @@ import GameplayKit
 class GameScene: SKScene {
     
     let player = Player(character: Witch())
-    let enemy = Player(character: Witch())
+    let enemy = Player(character: Zombie())
     
     lazy var battleManager = BattleManager(player: player, enemy: enemy)
     lazy var battleHud = BattleHud(player: player, enemy: enemy, sceneSize: size)
