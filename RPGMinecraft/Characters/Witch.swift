@@ -55,7 +55,6 @@ class Witch: Character {
             accuracy.upPercentage(value: 30)
             // Pega o já existente e aplica mais efeito
             print("Debug: Aumentando a porcentagem de invisibilidade para: \(accuracy.accuracyPercentage)%")
-//            player.addStatusEffects(effect: accuracy)
             return
         }
         
