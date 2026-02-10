@@ -27,8 +27,7 @@ class Witch: Character {
             enemy.decreaseHealth(amount: damage)
             posionAttack(enemy: enemy)
         case 2:
-//            let invisibility = attacks[2].damage
-            // TODO: - Implementar forma do inimigo errar os ataques com uma porcentagem
+            invisibilityMove(player: player)
             break
         case 3:
             let health = attacks[3].damage
@@ -43,5 +42,25 @@ class Witch: Character {
         if Double.random(in: 0...1) <= poisonChance {
             enemy.addStatusEffects(effect: PoisonStatus(turns: 3, damage: 2))
         }
+    }
+    
+    private func invisibilityMove(player: Player) {
+        if player.statusEffects.contains(where: { $0.type == .accuracy }) {
+            var effect = player.statusEffects.first(where: { $0.type == .accuracy })
+            guard let accuracy = effect as? Accuracy else {
+                print("Error: invisibilityMove")
+                return
+            }
+            accuracy.remainingTurns = 3
+            accuracy.upPercentage(value: 20)
+            // Pega o já existente e aplica mais efeito
+            print("Debug: Aumentando a porcentagem de invisibilidade para: \(accuracy.accuracyPercentage)")
+            player.addStatusEffects(effect: accuracy)
+            return
+        }
+        
+        print("Debug: Criando invisibilidade")
+        // Se não tiver efeito ainda cria um novo
+        player.addStatusEffects(effect: Accuracy(turns: 3, percentage: 20))
     }
 }

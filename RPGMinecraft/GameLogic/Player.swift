@@ -25,7 +25,16 @@ class Player {
     // Ataque
     func decreaseHealth(amount: Int) {
         let minHP = 0
-        let result = health - amount
+        
+        var damage = amount
+        
+        if statusEffects.contains(where: { $0.type == .accuracy }) {
+            print("Debug: Entrou no if de conter accuracy")
+            damage = self.applyAccuracy(damage: amount)
+            print("Debug: Dano original: \(amount) | Dano final: \(damage)")
+        }
+        
+        let result = health - damage
         if result < minHP {
             health = minHP
             return
@@ -80,5 +89,21 @@ extension Player {
     func reset() {
         statusEffects.removeAll()
         self.health = character.health
+    }
+}
+
+// Accuracy
+extension Player {
+    /// Efeito para diminuir a precisão
+    /// - Parameter damage: Dano original
+    /// - Returns: Novo Dano com precisão baixa
+    func applyAccuracy(damage: Int) -> Int {
+        if statusEffects.contains(where: { $0.type == .accuracy }) {
+            let effect = statusEffects.first(where: { $0.type == .accuracy })
+            guard let accuracy = effect as? Accuracy else { return damage }
+            let newDamage = accuracy.calculateDamage(damage: damage)
+            return newDamage
+        }
+        return damage
     }
 }
