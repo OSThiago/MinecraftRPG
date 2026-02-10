@@ -17,7 +17,7 @@ class Accuracy: StatusEffect {
     }
     
     func onTurnStart(player: Player) {
-        remainingTurns -= 1
+        setRemainingTurns(to: remainingTurns - 1)
         downPercentage(value: 10)
         // Adicionar logica para o inimigo dar menos dano
     }
@@ -25,7 +25,7 @@ class Accuracy: StatusEffect {
     func upPercentage(value: Int) {
         let maxPercentage = 80
         var result = accuracyPercentage + value
-        if result < maxPercentage {
+        if result > maxPercentage {
             result = maxPercentage
         }
         self.accuracyPercentage = result
@@ -40,14 +40,18 @@ class Accuracy: StatusEffect {
         self.accuracyPercentage = result
     }
     
+    func setRemainingTurns(to turns: Int) {
+        self.remainingTurns = turns
+    }
+    
     func calculateDamage(damage: Int) -> Int {
         // Por enquanto faremos ele errar o ataque, futuramente fazer ele também diminuir o dano caso não erre o ataque
-        let maxAccuracy = 100
+        let maxAccuracy = 80
     
         let chanceAttack = Int.random(in: 0...maxAccuracy)
         
         print("Debug: Chache de ataque: \(chanceAttack) | Acuuracy atual: \(accuracyPercentage)")
-        
+        print("Debug: Quantidade de turnos com invisibilidade: \(remainingTurns)")
         if chanceAttack <= accuracyPercentage {
             // TODO: - Disparar que errou o ataque
             return 0

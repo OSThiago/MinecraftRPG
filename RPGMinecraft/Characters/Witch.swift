@@ -51,16 +51,16 @@ class Witch: Character {
                 print("Error: invisibilityMove")
                 return
             }
-            accuracy.remainingTurns = 3
-            accuracy.upPercentage(value: 20)
+            accuracy.setRemainingTurns(to: 3)
+            accuracy.upPercentage(value: 30)
             // Pega o já existente e aplica mais efeito
-            print("Debug: Aumentando a porcentagem de invisibilidade para: \(accuracy.accuracyPercentage)")
-            player.addStatusEffects(effect: accuracy)
+            print("Debug: Aumentando a porcentagem de invisibilidade para: \(accuracy.accuracyPercentage)%")
+//            player.addStatusEffects(effect: accuracy)
             return
         }
         
-        print("Debug: Criando invisibilidade")
+        print("Debug: Criando invisibilidade com porcentagem de: 40%")
         // Se não tiver efeito ainda cria um novo
-        player.addStatusEffects(effect: Accuracy(turns: 3, percentage: 20))
+        player.addStatusEffects(effect: Accuracy(turns: 3, percentage: 40))
     }
 }
