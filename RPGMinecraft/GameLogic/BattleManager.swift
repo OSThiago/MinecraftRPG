@@ -63,7 +63,10 @@ class BattleManager {
         Task {
             // 1. Processa o status assim que começa o turno
             await self.enemy.processStatusEffects()
+            BattleHud?.updateStatusEffectPanel(playerStatus: player.statusEffects,
+                                               enemyStatus: enemy.statusEffects)
             BattleHud?.updateEnemyHeart(value: enemy.health)
+            
             
             if checkIsEnd() {
                 await endGame()
@@ -114,6 +117,8 @@ class BattleManager {
         Task {
             // Processa o efeitos do Player
             await self.player.processStatusEffects()
+            BattleHud?.updateStatusEffectPanel(playerStatus: player.statusEffects,
+                                               enemyStatus: enemy.statusEffects)
             BattleHud?.updatePlayerHeart(value: player.health)
 
             if checkIsEnd() {

@@ -14,14 +14,15 @@ final class CharacterStatusPanel: SKNode {
     private let backgroundBar: SKSpriteNode
     private let foregroundBar: SKSpriteNode
     private let hpLabel: SKLabelNode
-
+    private var statusEffectsBar: [SKSpriteNode] = []
+    
     // MARK: - Properties
     private let barWidth: CGFloat
     private let barHeight: CGFloat
 
     private(set) var maxHealth: Int
     private(set) var currentHealth: Int
-
+    private var statusEffects: [StatusEffect] = []
     // MARK: - Init
     init(
         characterName: String,
@@ -152,5 +153,35 @@ final class CharacterStatusPanel: SKNode {
 
     private func updateHPText() {
         hpLabel.text = "HP \(currentHealth) / \(maxHealth)"
+    }
+}
+
+// MARK: - Status effects bar
+extension CharacterStatusPanel {
+    func updateStatusEffectsBar(with effects: [StatusEffect]) {
+        self.removeChildren(in: statusEffectsBar)
+        
+        self.statusEffects = effects
+        
+        let spacing: CGFloat = 8
+        var currentX: CGFloat = 0
+        
+        for statusEffect in self.statusEffects {
+            let texture = SKTexture(imageNamed: statusEffect.textureName)
+            
+            for _ in 0..<statusEffect.remainingTurns {
+                let effectNode = SKSpriteNode(texture: texture)
+                
+                effectNode.size = CGSize(width: 20, height: 20)
+                effectNode.anchorPoint = CGPoint(x: 0, y: 0.5)
+                effectNode.position = CGPoint(x: currentX, y: barHeight - 50)
+                
+                self.statusEffectsBar.append(effectNode)
+                
+                self.addChild(effectNode)
+                
+                currentX += effectNode.size.width + spacing
+            }
+        }
     }
 }

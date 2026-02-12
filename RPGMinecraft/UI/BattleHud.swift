@@ -114,4 +114,11 @@ class BattleHud: SKNode {
             attack.reset()
         }
     }
+    
+    func updateStatusEffectPanel(playerStatus: [StatusEffect],
+                                 enemyStatus: [StatusEffect]
+    ) {
+        self.playerStatus.updateStatusEffectsBar(with: playerStatus)
+        self.enemyStatus.updateStatusEffectsBar(with: enemyStatus)
+    }
 }
