@@ -13,7 +13,7 @@ class BattleManager {
     
     var isPlayerTurn = true
     
-    // TODO: - Mudar para criar logica de atualizar vida e status na tela (renomar funcao)
+    // TODO: - Mudar para criar logica de atualizar vida e status na tela (renomear funcao)
     var turnEndAction: ((Int, Int) -> Void)?
     
     var dialogAction: ((String) async -> Void)?
@@ -34,6 +34,11 @@ class BattleManager {
                 enemy: enemy,
                 with: attack
             )
+            
+            attack.decraseAttacksRemaining(quantity: 1)
+            BattleHud?.updateAttackRemaning(attack: attack)
+            
+            print("Debug: quantidade de ataques do \(attack.name): \(attack.remainingAttacks)")
             
             BattleHud?.updatePlayerHeart(value: player.health)
             BattleHud?.updateEnemyHeart(value: enemy.health)
@@ -69,7 +74,14 @@ class BattleManager {
             await sleep(seconds: 2)
             
             // 2. Começa o ataque
-            let attack = enemy.character.attacks.randomElement()!
+//            var attack = enemy.character.attacks.randomElement()!
+            var attack = enemy.character.attacks[2]
+            
+            while attack.remainingAttacks <= 0 {
+                print("Debug: trocando de ataque pois o selecionado não está habilitado")
+                attack = enemy.character.attacks.randomElement()!
+            }
+            
             await self.dialogAction?("\(self.enemy.character.name) usou \(attack.name)")
             
             self.enemy.character.attackPlayer(
@@ -77,6 +89,13 @@ class BattleManager {
                 enemy: self.player,
                 with: attack
             )
+            
+            attack.decraseAttacksRemaining(quantity: 1)
+            BattleHud?.updateAttackRemaning(attack: attack)
+            
+            print("Debug: quantidade de ataques do \(attack.name): \(attack.remainingAttacks)")
+            
+            
             // Finaliza o Ataque
             BattleHud?.updateEnemyHeart(value: enemy.health)
             BattleHud?.updatePlayerHeart(value: player.health)
@@ -141,6 +160,7 @@ extension BattleManager {
         await sleep(seconds: 3)
         player.reset()
         enemy.reset()
+        BattleHud?.resetAttacksButtons()
         BattleHud?.updateEnemyHeart(value: enemy.health)
         BattleHud?.updatePlayerHeart(value: player.health)
 

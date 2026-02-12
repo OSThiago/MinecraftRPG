@@ -10,7 +10,9 @@ class Attack {
     let name: String
     let damage: Int
     var critical: Int = 0
-    let quantity: Int
+    var remainingAttacks: Int = 0
+    
+    private let quantityAttacks: Int
     
     init(id: Int,
          name: String,
@@ -20,10 +22,23 @@ class Attack {
         self.id = id
         self.name = name
         self.damage = amount
-        self.quantity = quantity
+        self.quantityAttacks = quantity
+        self.remainingAttacks = quantity
     }
     
     func increaseCritical(buffer: Int) {
         critical += buffer
+    }
+    
+    func decraseAttacksRemaining(quantity: Int) {
+        let min = 0
+        self.remainingAttacks -= quantity
+        if self.remainingAttacks < min {
+            self.remainingAttacks = min
+        }
+    }
+    
+    func resetAttacksRemaining() {
+        self.remainingAttacks = quantityAttacks
     }
 }

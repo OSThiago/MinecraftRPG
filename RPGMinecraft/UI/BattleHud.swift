@@ -68,7 +68,7 @@ class BattleHud: SKNode {
         ]
         
         for (index, attack) in atacks.enumerated() {
-            let button = AttackButton(title: attack.name)
+            let button = AttackButton(attack: attack)
             let position = positions[index]
             button.position = CGPoint(
                 x: sceneSize.width * position.x,
@@ -100,6 +100,18 @@ class BattleHud: SKNode {
         for attack in attacks {
             attack.isUserInteractionEnabled = isAnabled
             attack.isHidden = !isAnabled
+        }
+    }
+    
+    func updateAttackRemaning(attack: Attack) {
+        for attack in attacks {
+            attack.updateQuantity(to: attack.attack.remainingAttacks)
+        }
+    }
+    
+    func resetAttacksButtons() {
+        for attack in attacks {
+            attack.reset()
         }
     }
 }

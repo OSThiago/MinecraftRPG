@@ -89,6 +89,9 @@ extension Player {
     func reset() {
         statusEffects.removeAll()
         self.health = character.health
+        for atack in character.attacks {
+            atack.resetAttacksRemaining()
+        }
     }
 }
 
