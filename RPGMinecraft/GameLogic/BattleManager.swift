@@ -74,8 +74,7 @@ class BattleManager {
             await sleep(seconds: 2)
             
             // 2. Começa o ataque
-//            var attack = enemy.character.attacks.randomElement()!
-            var attack = enemy.character.attacks[2]
+            var attack = enemy.character.attacks.randomElement()!
             
             while attack.remainingAttacks <= 0 {
                 print("Debug: trocando de ataque pois o selecionado não está habilitado")
