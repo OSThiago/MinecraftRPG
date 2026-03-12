@@ -7,12 +7,14 @@
 
 enum StatusEffectType {
     case poison
-    case accuracy
+    case invisibility
+    case teleport
     
     var effectTextureName: String {
         switch self {
         case .poison: "Poison"
-        case .accuracy: "Invisibility"
+        case .invisibility: "Invisibility"
+        case .teleport: "Teleport"
         }
     }
 }

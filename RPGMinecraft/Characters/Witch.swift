@@ -45,9 +45,9 @@ class Witch: Character {
     }
     
     private func invisibilityMove(player: Player) {
-        if player.statusEffects.contains(where: { $0.type == .accuracy }) {
-            var effect = player.statusEffects.first(where: { $0.type == .accuracy })
-            guard let accuracy = effect as? Accuracy else {
+        if player.statusEffects.contains(where: { $0.type == .invisibility }) {
+            var effect = player.statusEffects.first(where: { $0.type == .invisibility })
+            guard let accuracy = effect as? Invisibility else {
                 print("Error: invisibilityMove")
                 return
             }
@@ -60,6 +60,6 @@ class Witch: Character {
         
         print("Debug: Criando invisibilidade com porcentagem de: 40%")
         // Se não tiver efeito ainda cria um novo
-        player.addStatusEffects(effect: Accuracy(turns: 3, percentage: 40))
+        player.addStatusEffects(effect: Invisibility(turns: 3, percentage: 40))
     }
 }

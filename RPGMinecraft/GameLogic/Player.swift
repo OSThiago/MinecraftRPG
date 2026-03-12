@@ -28,7 +28,7 @@ class Player {
         
         var damage = amount
         
-        if statusEffects.contains(where: { $0.type == .accuracy }) {
+        if statusEffects.contains(where: { $0.type == .invisibility }) {
             print("Debug: Entrou no if de conter accuracy")
             damage = self.applyAccuracy(damage: amount)
             print("Debug: Dano original: \(amount) | Dano final: \(damage)")
@@ -101,9 +101,9 @@ extension Player {
     /// - Parameter damage: Dano original
     /// - Returns: Novo Dano com precisão baixa
     func applyAccuracy(damage: Int) -> Int {
-        if statusEffects.contains(where: { $0.type == .accuracy }) {
-            let effect = statusEffects.first(where: { $0.type == .accuracy })
-            guard let accuracy = effect as? Accuracy else { return damage }
+        if statusEffects.contains(where: { $0.type == .invisibility }) {
+            let effect = statusEffects.first(where: { $0.type == .invisibility })
+            guard let accuracy = effect as? Invisibility else { return damage }
             let newDamage = accuracy.calculateDamage(damage: damage)
             return newDamage
         }

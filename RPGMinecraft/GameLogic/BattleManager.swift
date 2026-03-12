@@ -46,7 +46,10 @@ class BattleManager {
             isPlayerTurn = false
             BattleHud?.enableAttacks(isAnabled: false)
             
-            await dialogAction?("\(player.character.name) usou \(attack.name)")
+//            await dialogAction?("\(player.character.name) usou \(attack.name)")
+            await dialogAction?("\(attack.attackDiolog)")
+            
+            attack.setAttackdialog("")
             
             await sleep(seconds: 2)
             

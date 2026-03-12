@@ -17,6 +17,9 @@ class BattleHud: SKNode {
  
     var onAttackSelected: ((Int) ->Void)?
     
+    var player: Player?
+    var enemy: Player?
+    
     init(player: Player, enemy: Player, sceneSize: CGSize) {
         
         playerStatus = CharacterStatusPanel(

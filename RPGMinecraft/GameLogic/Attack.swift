@@ -11,6 +11,7 @@ class Attack {
     let damage: Int
     var critical: Int = 0
     var remainingAttacks: Int = 0
+    var attackDiolog: String = ""
     
     private let quantityAttacks: Int
     
@@ -40,5 +41,9 @@ class Attack {
     
     func resetAttacksRemaining() {
         self.remainingAttacks = quantityAttacks
+    }
+    
+    func setAttackdialog(_ dialog: String) {
+        self.attackDiolog = dialog
     }
 }

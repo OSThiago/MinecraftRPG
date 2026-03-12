@@ -1,12 +1,12 @@
 //
-//  Accuracy.swift
+//  Teleport.swift
 //  RPGMinecraft
 //
-//  Created by Thiago de Oliveira Sousa on 18/01/26.
+//  Created by Thiago de Oliveira Sousa on 22/02/26.
 //
 
-class Accuracy: StatusEffect {
-    var type: StatusEffectType = .accuracy
+class Teleport: StatusEffect {
+    var type: StatusEffectType = .teleport
     var remainingTurns: Int
     
     var accuracyPercentage: Int = 0
@@ -50,8 +50,8 @@ class Accuracy: StatusEffect {
     
         let chanceAttack = Int.random(in: 0...maxAccuracy)
         
-        print("Debug: Chache de ataque: \(chanceAttack) | Acuuracy atual: \(accuracyPercentage)")
-        print("Debug: Quantidade de turnos com invisibilidade: \(remainingTurns)")
+        print("Debug: Chache de ataque: \(chanceAttack) | Chance de ataque atual: \(accuracyPercentage)")
+        print("Debug: Quantidade de turnos com Teleport: \(remainingTurns)")
         if chanceAttack <= accuracyPercentage {
             // TODO: - Disparar que errou o ataque
             return 0
