@@ -82,8 +82,8 @@ class BattleManager {
             // 2. Começa o ataque
             var attack = enemy.character.attacks.randomElement()!
             
-            while attack.remainingAttacks <= 0 {
-                print("Debug: trocando de ataque pois o selecionado não está habilitado")
+            while attack.remainingAttacks <= 0 && enemy.hasAttack() {
+                logDebug("trocando de ataque pois o selecionado não está habilitado")
                 attack = enemy.character.attacks.randomElement()!
             }
             
