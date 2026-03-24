@@ -54,11 +54,11 @@ class Witch: Character {
             accuracy.setRemainingTurns(to: 3)
             accuracy.upPercentage(value: 30)
             // Pega o já existente e aplica mais efeito
-            print("Debug: Aumentando a porcentagem de invisibilidade para: \(accuracy.accuracyPercentage)%")
+            logDebug("Aumentando a porcentagem de invisibilidade para: \(accuracy.accuracyPercentage)%")
             return
         }
         
-        print("Debug: Criando invisibilidade com porcentagem de: 40%")
+        logDebug("Criando invisibilidade com porcentagem de: 40%")
         // Se não tiver efeito ainda cria um novo
         player.addStatusEffects(effect: Invisibility(turns: 3, percentage: 40))
     }

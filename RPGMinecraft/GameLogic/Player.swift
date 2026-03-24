@@ -29,9 +29,9 @@ class Player {
         var damage = amount
         
         if statusEffects.contains(where: { $0.type == .invisibility }) {
-            print("Debug: Entrou no if de conter accuracy")
+            logDebug("Entrou no if de conter accuracy")
             damage = self.applyAccuracy(damage: amount)
-            print("Debug: Dano original: \(amount) | Dano final: \(damage)")
+            logDebug("Dano original: \(amount) | Dano final: \(damage)")
         }
         
         let result = health - damage
@@ -66,6 +66,17 @@ class Player {
         }
         
         statusEffects.removeAll { $0.remainingTurns <= 0 }
+    }
+    
+    func hasAttack() -> Bool {
+        for attack in character.attacks {
+            if attack.remainingAttacks > 0 {
+                logDebug("\(character.name) Ainda possui ataques")
+                return true
+            }
+        }
+        logDebug("\(character.name) Não possui ataques")
+        return false
     }
     
     private func displayStatus(status: StatusEffect) async {

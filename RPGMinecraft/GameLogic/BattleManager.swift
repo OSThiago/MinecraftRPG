@@ -38,7 +38,7 @@ class BattleManager {
             attack.decraseAttacksRemaining(quantity: 1)
             BattleHud?.updateAttackRemaning(attack: attack)
             
-            print("Debug: quantidade de ataques do \(attack.name): \(attack.remainingAttacks)")
+            logDebug("quantidade de ataques do \(attack.name): \(attack.remainingAttacks)")
             
             BattleHud?.updatePlayerHeart(value: player.health)
             BattleHud?.updateEnemyHeart(value: enemy.health)
@@ -98,7 +98,7 @@ class BattleManager {
             attack.decraseAttacksRemaining(quantity: 1)
             BattleHud?.updateAttackRemaning(attack: attack)
             
-            print("Debug: quantidade de ataques do \(attack.name): \(attack.remainingAttacks)")
+            logDebug("quantidade de ataques do \(attack.name): \(attack.remainingAttacks)")
             
             
             // Finaliza o Ataque

@@ -45,11 +45,11 @@ class Enderman: Character {
             accuracy.setRemainingTurns(to: 3)
             accuracy.upPercentage(value: 30)
             // Pega o já existente e aplica mais efeito
-            print("Debug: Aumentando a porcentagem de teloport para: \(accuracy.accuracyPercentage)%")
+            logDebug("Aumentando a porcentagem de teloport para: \(accuracy.accuracyPercentage)%")
             return
         }
         
-        print("Debug: Criando teleport com porcentagem de: 40%")
+        logDebug("Criando teleport com porcentagem de: 40%")
         // Se não tiver efeito ainda cria um novo
         player.addStatusEffects(effect: Invisibility(turns: 3, percentage: 40))
     }
@@ -58,7 +58,7 @@ class Enderman: Character {
         let random = Int.random(in: 0..<3)
         enemy.character.attacks[random].decraseAttacksRemaining(quantity: stealQuantity)
         let attackName = enemy.character.attacks[random].name
-        print("Debug: Roubando \(stealQuantity) ataques: \(attackName)")
+        logDebug("Roubando \(stealQuantity) ataques: \(attackName)")
         enemy.character.attacks[random].setAttackdialog("\(enemy.character.name) roubou \(attackName) | Quantidade: \(stealQuantity)")
     }
 }

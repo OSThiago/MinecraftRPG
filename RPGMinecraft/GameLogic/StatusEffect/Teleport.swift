@@ -50,8 +50,8 @@ class Teleport: StatusEffect {
     
         let chanceAttack = Int.random(in: 0...maxAccuracy)
         
-        print("Debug: Chache de ataque: \(chanceAttack) | Chance de ataque atual: \(accuracyPercentage)")
-        print("Debug: Quantidade de turnos com Teleport: \(remainingTurns)")
+        logDebug("Chache de ataque: \(chanceAttack) | Chance de ataque atual: \(accuracyPercentage)")
+        logDebug("Quantidade de turnos com Teleport: \(remainingTurns)")
         if chanceAttack <= accuracyPercentage {
             // TODO: - Disparar que errou o ataque
             return 0
